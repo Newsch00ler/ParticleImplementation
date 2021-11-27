@@ -15,6 +15,7 @@ namespace ParticleImplementation
         public Form1()
         {
             InitializeComponent();
+            picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
         }
     }
 }
