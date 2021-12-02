@@ -36,7 +36,7 @@ namespace ParticleImplementation
             //Direction = random.Next(360);
             //Speed = 1 + random.Next(10);
             Radius = 2 + random.Next(10);
-            Life = 20 + random.Next(100); // Добавили исходный запас здоровья от 20 до 120
+            Life = 20 + random.Next(150); // Добавили исходный запас здоровья от 20 до 120
         }
         public virtual void Draw(Graphics g)
         {
