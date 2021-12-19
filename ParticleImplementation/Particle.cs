@@ -38,6 +38,7 @@ namespace ParticleImplementation
             Radius = 2 + random.Next(10);
             Life = 20 + random.Next(150); // Добавили исходный запас здоровья от 20 до 120
         }
+
         public virtual void Draw(Graphics g)
         {
             // рассчитываем коэффициент прозрачности по шкале от 0 до 1.0
