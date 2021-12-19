@@ -36,7 +36,7 @@ namespace ParticleImplementation
 
             foreach (var particle in particles)
             {
-                if (particle.Life < 0)
+                if (particle.Life <= 0)
                 {
                     if (particlesToCreate > 0)
                     {
@@ -46,7 +46,11 @@ namespace ParticleImplementation
                     }
                 }
                 else
-                {
+                {                   
+                    particle.X += particle.SpeedX;
+                    particle.Y += particle.SpeedY;
+
+                    particle.Life -= 1;
                     foreach (var point in impactPoints)
                     {
                         point.ImpactParticle(particle);
@@ -54,9 +58,6 @@ namespace ParticleImplementation
 
                     particle.SpeedX += GravitationX;
                     particle.SpeedY += GravitationY;
-
-                    particle.X += particle.SpeedX;
-                    particle.Y += particle.SpeedY;
                 }
             }
 
