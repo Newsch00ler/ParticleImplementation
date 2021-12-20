@@ -18,6 +18,7 @@ namespace ParticleImplementation
         public float SpeedX; // направление движения
         public float SpeedY; // скорость перемещения
         public float Life; // запас здоровья частицы
+        public Color clr;
 
         // добавили генератор случайных чисел
         public static Random random = new Random();
@@ -28,7 +29,6 @@ namespace ParticleImplementation
             // генерируем произвольное направление и скорость
             var direction = (double)random.Next(360);
             var speed = 1 + random.Next(10);
-    
             // рассчитываем вектор скорости
             SpeedX = (float)(Math.Cos(direction / 180 * Math.PI) * speed);
             SpeedY = -(float)(Math.Sin(direction / 180 * Math.PI) * speed);
@@ -65,7 +65,6 @@ namespace ParticleImplementation
         // два новых поля под цвет начальный и конечный
         public Color FromColor;
         public Color ToColor;
-
         // для смеси цветов
         public static Color MixColor(Color color1, Color color2, float k)
         {

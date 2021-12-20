@@ -30,7 +30,7 @@ namespace ParticleImplementation
                 SpeedMin = 10,
                 SpeedMax = 10,
                 ColorFrom = Color.Red,
-                ColorTo = Color.FromArgb(0, Color.Black),
+                ColorTo = Color.FromArgb(0, Color.Blue),
                 ParticlesPerTick = 5,
                 X = picDisplay.Width / picDisplay.Width,
                 Y = picDisplay.Height / picDisplay.Height,

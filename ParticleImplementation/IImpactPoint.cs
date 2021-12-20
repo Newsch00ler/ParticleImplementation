@@ -11,6 +11,7 @@ namespace ParticleImplementation
     {
         public float X; // ну точка же, вот и две координаты
         public float Y;
+        public Color Color = Color.Green; // начальный цвет частицы
 
         // абстрактный метод с помощью которого будем изменять состояние частиц
         // например притягивать
@@ -43,16 +44,18 @@ namespace ParticleImplementation
             if (r + particle.Radius < Power / 2) // если частица оказалось внутри окружности
             {
                 var p = (particle as ParticleColorful);
-                if(count < 250)
+                if(count < 150)
                 {
                     count++;                
                     p.Life = 0;
                 }
             }
-            /*if (count == 30)
+            if (count == 150)
             {
+                X = -100;
+                Y = -100;
                 Power = 0;
-            }*/
+            }
         }
         public override void Render(Graphics g)
         {
@@ -75,10 +78,6 @@ namespace ParticleImplementation
                  X, // расположение в пространстве
                  Y,
                  stringFormat);
-            /*if (count == 50)
-            {
-                g.
-            }*/
         }
     }
 
@@ -93,12 +92,24 @@ namespace ParticleImplementation
             float gY = Y - particle.Y;
 
             double r = Math.Sqrt(gX * gX + gY * gY); // считаем расстояние от центра точки до центра частицы
-
+            var p = (particle as ParticleColorful);
             if (r + particle.Radius < Power / 2) // если частица оказалось внутри окружности
             {
-                var p = (particle as ParticleColorful);
+                if (particle is ParticleColorful)
+                {
+                    p.ToColor = Color.Green;
+                }
+                //p.ToColor = Color.Green;
                 count++;
             }
+           /* if (r + particle.Radius > Power / 2) // если частица оказалось внутри окружности
+            {
+                if (particle is ParticleColorful)
+                {
+                    p.FromColor = Color.Red;
+                    p.ToColor = Color.Green;
+                }
+            }*/
         }
         public override void Render(Graphics g)
         {
