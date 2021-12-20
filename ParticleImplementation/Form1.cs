@@ -14,68 +14,69 @@ namespace ParticleImplementation
     public partial class Form1 : Form
     {
         List<Emitter> emitters = new List<Emitter>();
+        List<IImpactPoint> points = new List<IImpactPoint>();
         Emitter emitter;
         GravityPoint point1; // добавил поле под первую точку
-        GravityPoint point2; // добавил поле под вторую точку
+        RadarPoint point2;
         public Form1()
         {
             InitializeComponent();
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
-
+            picDisplay.MouseWheel += picDisplay_MouseWheel;
             this.emitter = new Emitter // создаю эмиттер и привязываю его к полю emitter
             {
                 Direction = 0,
-                Spreading = 100,
+                Spreading = 150,
                 SpeedMin = 10,
                 SpeedMax = 10,
-                ColorFrom = Color.Gold,
-                ColorTo = Color.FromArgb(0, Color.Red),
-                ParticlesPerTick = 10,
-                X = picDisplay.Width / 2,
-                Y = picDisplay.Height / 2,
+                ColorFrom = Color.Red,
+                ColorTo = Color.FromArgb(0, Color.Black),
+                ParticlesPerTick = 5,
+                X = picDisplay.Width / picDisplay.Width,
+                Y = picDisplay.Height / picDisplay.Height,
             };
 
             emitters.Add(this.emitter); // все равно добавляю в список emitters, чтобы он рендерился и обновлялся 
 
             point1 = new GravityPoint
             {
-                X = picDisplay.Width / 2 + 100,
-                Y = picDisplay.Height / 2,
-            };
-            point2 = new GravityPoint
-            {
-                X = picDisplay.Width / 2 - 100,
+                X = picDisplay.Width / 2,
                 Y = picDisplay.Height / 2,
             };
 
+            point2 = new RadarPoint
+            {
+                X = picDisplay.Width / 3,
+                Y = picDisplay.Height / 3,
+            };
             // привязываем поля к эмиттеру
+
             emitter.impactPoints.Add(point1);
             emitter.impactPoints.Add(point2);
             /*emitter = new TopEmitter
             {
                 Width = picDisplay.Width,
                 GravitationY = 0.25f
-            };
-           
-
-            // в центре антигравитон
-            emitter.impactPoints.Add(new AntiGravityPoint
-            {
-                X = picDisplay.Width / 2,
-                Y = picDisplay.Height / 2
-            });*/
+            };*/
         }
 
         // ну и обработка тика таймера, тут просто декомпозицию выполнили
         private void timer1_Tick(object sender, EventArgs e)
         {
-            emitter.UpdateState(); // тут теперь обновляем эмиттер
-
+            emitter.UpdateState();
             using (var g = Graphics.FromImage(picDisplay.Image))
             {
                 g.Clear(Color.Black);
-                emitter.Render(g); // а тут теперь рендерим через эмиттер
+                emitter.Render(g);
             }
+            /*foreach (var point in emitter.impactPoints)
+            {
+                if (point.count > 249)
+                {
+                    emitter.impactPoints.Remove(point);
+                }
+            }*/
+
 
             picDisplay.Invalidate();
         }
@@ -94,20 +95,16 @@ namespace ParticleImplementation
             point2.Y = e.Y;
         }
 
-        private void tbDirection_Scroll(object sender, EventArgs e)
+        private void picDisplay_MouseClick(object sender, MouseEventArgs e)
         {
-            emitter.Direction = tbDirection.Value; // направлению эмиттера присваиваем значение ползунка 
-            lblDirection.Text = $"{tbDirection.Value}°"; // добавил вывод значения
+            emitter.impactPoints.Add(new GravityPoint { 
+            X = e.X,
+            Y = e.Y,
+            });
         }
-
-        private void tbGraviton1_Scroll(object sender, EventArgs e)
+        private void picDisplay_MouseWheel(object sender, MouseEventArgs e)
         {
-            point1.Power = tbGraviton1.Value;
-        }
-
-        private void tbGraviton2_Scroll(object sender, EventArgs e)
-        {
-            point2.Power = tbGraviton2.Value;
+            // сюда реакцию на колесико мышки пихать
         }
     }
 }

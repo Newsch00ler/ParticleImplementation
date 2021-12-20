@@ -33,8 +33,6 @@ namespace ParticleImplementation
             SpeedX = (float)(Math.Cos(direction / 180 * Math.PI) * speed);
             SpeedY = -(float)(Math.Sin(direction / 180 * Math.PI) * speed);
             // я не трогаю координаты X, Y потому что хочу, чтобы все частицы возникали из одного места
-            //Direction = random.Next(360);
-            //Speed = 1 + random.Next(10);
             Radius = 2 + random.Next(10);
             Life = 20 + random.Next(150); // Добавили исходный запас здоровья от 20 до 120
         }
