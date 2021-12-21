@@ -28,8 +28,8 @@ namespace ParticleImplementation
         public int LifeMax = 100; // максимальное время жизни частицы
         public int ParticlesPerTick = 1; // создание частиц за тик 
 
-        public Color ColorFrom = Color.White; // начальный цвет частицы
-        public Color ColorTo = Color.FromArgb(0, Color.Black); // конечный цвет частиц
+        public Color ColorFrom = Color.OrangeRed; // начальный цвет частицы
+        public Color ColorTo = Color.FromArgb(0, Color.Yellow); // конечный цвет частиц
         public void UpdateState()
         {
             int particlesToCreate = ParticlesPerTick; // фиксируем счетчик сколько частиц нам создавать за тик

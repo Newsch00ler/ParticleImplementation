@@ -12,6 +12,7 @@ namespace ParticleImplementation
 {
     public partial class Form1 : Form
     {
+        public static Random random = new Random();
         List<Emitter> emitters = new List<Emitter>();
         Emitter emitter1;
         CountPoint point1; // добавил поле под первую точку
@@ -27,9 +28,9 @@ namespace ParticleImplementation
                 Spreading = 200,
                 SpeedMin = 10,
                 SpeedMax = 10,
-                ColorFrom = Color.Red,
-                ColorTo = Color.FromArgb(0, Color.Black),
-                ParticlesPerTick = 3,
+                ColorFrom = Color.OrangeRed,
+                ColorTo = Color.FromArgb(0, Color.Yellow),
+                ParticlesPerTick = 5,
                 X = picDisplay.Width / 2,
                 Y = picDisplay.Height / picDisplay.Height,
             };
@@ -80,16 +81,19 @@ namespace ParticleImplementation
             point2.Y = e.Y;
         }
 
-        private void picDisplay_MouseClick(object sender, MouseEventArgs e)
+        /*private void picDisplay_MouseClick(object sender, MouseEventArgs e)
         {
-            emitter1.impactPoints.Add(new CountPoint { 
-            X = e.X,
-            Y = e.Y,
-            });
-        }
+            emitter1.impactPoints.Add(new CountPoint { X = e.X,Y = e.Y,});
+        }*/
         private void picDisplay_MouseWheel(object sender, MouseEventArgs e)
         {
-            // сюда реакцию на колесико мышки пихать
+            point2.X += 1;
+            point2.Y += 1;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            emitter1.impactPoints.Add(new CountPoint { X = picDisplay.Width / 2 + random.Next(-250, 250), Y = picDisplay.Height / 2 + random.Next(-250, 250) });
         }
     }
 }

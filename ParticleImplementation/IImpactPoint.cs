@@ -11,17 +11,13 @@ namespace ParticleImplementation
     {
         public float X; // ну точка же, вот и две координаты
         public float Y;
-        public Color Color = Color.Red; // начальный цвет частицы
-
-        // абстрактный метод с помощью которого будем изменять состояние частиц
-        // например притягивать
-        public abstract void ImpactParticle(Particle particle);
-
-        // базовый класс для отрисовки точечки
-        public virtual void Render(Graphics g)
+        public Color Color;
+        //public Color Color = Color.OrangeRed; // начальный цвет частицы
+        public abstract void ImpactParticle(Particle particle); // абстрактный метод с помощью которого будем изменять состояние частиц
+        public virtual void Render(Graphics g) // базовый класс для отрисовки точечки
         {
             g.FillEllipse(
-                    new SolidBrush(Color.Red),
+                    new SolidBrush(Color.OrangeRed),
                     X - 5,
                     Y - 5,
                     10,
@@ -31,96 +27,92 @@ namespace ParticleImplementation
     }
     public class CountPoint : IImpactPoint
     {
-        public int Radius = 100; // сила притяжения
-        public int count = 0;
-        // а сюда по сути скопировали с минимальными правками то что было в UpdateState
+        public int Radius = 100; // радиус
+        public int Count = 0; // сам счётчик
         public override void ImpactParticle(Particle particle)
         {
             float gX = X - particle.X;
             float gY = Y - particle.Y;
-
             double r = Math.Sqrt(gX * gX + gY * gY); // считаем расстояние от центра точки до центра частицы
-
+            var p = (particle as ParticleColorful);
             if (r + particle.Radius < Radius / 2) // если частица оказалось внутри окружности
             {
-                var p = (particle as ParticleColorful);
-                count++;                
-                p.Life = 0;
+                p.Life = 0; // а частица умерла туть(
+                Count++; // счётчик прибавился туть)
             }
         }
         public override void Render(Graphics g)
-        {
-            // буду рисовать окружность с диаметром равным Power
-            g.DrawEllipse(
-                 new Pen(Color.Red),
+        {           
+            /*g.FillEllipse( // окружность с диаметром равным Radius
+                 new SolidBrush(Color.Black),
+                 X - Radius / 2,
+                 Y - Radius / 2,
+                 Radius,
+                 Radius);*/
+            g.DrawEllipse( // окружность с диаметром равным Radius
+                 new Pen(Color.OrangeRed, 2),
                  X - Radius / 2,
                  Y - Radius / 2,
                  Radius,
                  Radius);
-
             var stringFormat = new StringFormat(); // создаем экземпляр класса
             stringFormat.Alignment = StringAlignment.Center; // выравнивание по горизонтали
             stringFormat.LineAlignment = StringAlignment.Center; // выравнивание по вертикали
-
             g.DrawString(
-                 $"{count}", // надпись, можно перенос строки вставлять (если вы Катя, то может не работать и надо использовать \r\n)
-                 new Font("Verdana", 10), // шрифт и его размер
-                 new SolidBrush(Color.White), // цвет шрифта
+                 $"{Count}", // надпись, можно перенос строки вставлять (если вы Катя, то может не работать и надо использовать \r\n)
+                 new Font("Verdana", 14), // шрифт и его размер
+                 new SolidBrush(Color.OrangeRed), // цвет шрифта
                  X, // расположение в пространстве
                  Y,
                  stringFormat);
         }
     }
-
     public class RadarPoint : IImpactPoint
     {
-        public int Radius = 100; // сила отторжения
+        public int Radius = 100; // радиус
         List<Particle> radarParticles = new List<Particle>(); // место хранения частиц, которые попали во внутрь
-        // а сюда по сути скопировали с минимальными правками то что было в UpdateState
         public override void ImpactParticle(Particle particle)
         {
             float gX = X - particle.X;
             float gY = Y - particle.Y;
-
             double r = Math.Sqrt(gX * gX + gY * gY); // считаем расстояние от центра точки до центра частицы
             var p = (particle as ParticleColorful);
             if (r + particle.Radius < Radius / 2) // если частица оказалось внутри окружности
             {
-                if(Color == Color.Red)
-                {
-                    p.FromColor = Color.Green;
-                    p.ToColor = Color.Green;
-                }
                 radarParticles.Add(p);
+                if (Color == Color.OrangeRed)
+                {
+                    p.FromColor = Color.MediumSpringGreen;
+                    p.ToColor = Color.MediumSpringGreen;
+                }
+                //radarParticles.Add(p);
             }
             if (r + particle.Radius > Radius / 2) // если частица оказалось вне окружности
             {
-                if (Color == Color.Red)
-                {
-                    p.FromColor = Color.Red;
-                    p.ToColor = Color.Black;
-                }
                 radarParticles.Remove(p);
+                if (Color == Color.OrangeRed)
+                {
+                    p.FromColor = Color.OrangeRed;
+                    p.ToColor = Color.Yellow; 
+                }
+                //radarParticles.Remove(p);
             }
         }
         public override void Render(Graphics g)
         {
-            // окружность с диаметром равным Radius
-            g.DrawEllipse(
-                 new Pen(Color.Green),
+            g.DrawEllipse( // окружность с диаметром равным Radius
+                 new Pen(Color.MediumSpringGreen, 2),
                  X - Radius / 2,
                  Y - Radius / 2,
                  Radius,
                  Radius);
-
             var stringFormat = new StringFormat(); // экземпляр класса
             stringFormat.Alignment = StringAlignment.Center; // выравнивание по горизонтали
             stringFormat.LineAlignment = StringAlignment.Center; // выравнивание по вертикали
-
             g.DrawString(
                  $"{radarParticles.Count}",
                  new Font("Verdana", 14),
-                 new SolidBrush(Color.Green),
+                 new SolidBrush(Color.MediumSpringGreen),
                  X,
                  Y,
                  stringFormat);
