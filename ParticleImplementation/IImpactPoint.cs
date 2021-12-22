@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace ParticleImplementation
 {
     public abstract class IImpactPoint
@@ -15,13 +14,7 @@ namespace ParticleImplementation
         public abstract void ImpactParticle(Particle particle); // абстрактный метод с помощью которого будем изменять состояние частиц
         public virtual void Render(Graphics g) // базовый класс для отрисовки точечки
         {
-            g.FillEllipse(
-                    new SolidBrush(Color.OrangeRed),
-                    X - 5,
-                    Y - 5,
-                    10,
-                    10
-                );
+            g.FillEllipse(new SolidBrush(Color.OrangeRed), X - 5, Y - 5, 10, 10);
         }
     }
     public class CountPoint : IImpactPoint
@@ -37,7 +30,7 @@ namespace ParticleImplementation
             if (r + particle.Radius < Radius / 2) // если частица оказалось внутри окружности
             {
                 p.Radius = 0; // чтобы частица не мешалась еще сколько то тиков при смерти, делаю радиус 0
-                p.Life = 0; // частица умерла туть(
+                p.Life = 0; // а частица умерла туть(
                 Count++; // а счётчик прибавился туть)
             }
         }
@@ -49,16 +42,14 @@ namespace ParticleImplementation
                  Y - Radius / 2,
                  Radius,
                  Radius);
-            var stringFormat = new StringFormat(); // создаем экземпляр класса
+            var stringFormat = new StringFormat(); // экземпляр класса
             stringFormat.Alignment = StringAlignment.Center; // выравнивание по горизонтали
             stringFormat.LineAlignment = StringAlignment.Center; // выравнивание по вертикали
             g.DrawString(
-                 $"{Count}", // надпись, можно перенос строки вставлять (если вы Катя, то может не работать и надо использовать \r\n)
-                 new Font("Verdana", 14), // шрифт и его размер
-                 new SolidBrush(Color.OrangeRed), // цвет шрифта
-                 X, // расположение в пространстве
-                 Y,
-                 stringFormat);
+                 $"{Count}",
+                 new Font("Verdana", 14),
+                 new SolidBrush(Color.OrangeRed),
+                 X, Y, stringFormat);
         }
     }
     public class RadarPoint : IImpactPoint
@@ -73,8 +64,8 @@ namespace ParticleImplementation
             var p = (particle as ParticleColorful);
             if (r + particle.Radius <= Radius / 2) // если частица оказалось внутри окружности или на окуржности
             {
-                radarParticles.Add(p);
-                if (Color == Color.OrangeRed)
+                radarParticles.Add(p); // добавляем ее в лист частиц, которые внутри
+                if (Color == Color.OrangeRed) // здесь меняем цвет на медиумспрниггрин
                 {
                     p.FromColor = Color.MediumSpringGreen;
                     p.ToColor = Color.MediumSpringGreen;
@@ -82,8 +73,8 @@ namespace ParticleImplementation
             }
             if (r + particle.Radius > Radius / 2) // если частица оказалось вне окружности
             {
-                radarParticles.Remove(p);
-                if (Color == Color.OrangeRed)
+                radarParticles.Remove(p); // удаляем ее из листа частиц, котрые внутри
+                if (Color == Color.OrangeRed) // здесь меняем цвет обратно на оранжред
                 {
                     p.FromColor = Color.OrangeRed;
                     p.ToColor = Color.Yellow; 
@@ -105,9 +96,7 @@ namespace ParticleImplementation
                  $"{radarParticles.Count}",
                  new Font("Verdana", 14),
                  new SolidBrush(Color.White),
-                 X,
-                 Y,
-                 stringFormat);
+                 X, Y, stringFormat);
         }
     }
 }

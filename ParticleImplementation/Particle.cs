@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace ParticleImplementation
 {
     public class Particle
@@ -19,23 +18,22 @@ namespace ParticleImplementation
         public virtual void Draw(Graphics g)
         {
             var color = Color.FromArgb(random.Next(255), random.Next(255), random.Next(255));
-            var b = new SolidBrush(color); // создали кисть для рисования 
+            var b = new SolidBrush(color); // кисть для рисования 
             g.FillEllipse(b, X - Radius, Y - Radius, Radius * 2, Radius * 2); // нарисовали залитый кружок радиусом Radius с центром в X, Y
             b.Dispose();
         }
     }
     public class ParticleColorful : Particle // класс для цветных частиц
     {
-        public Color FromColor;
-        public Color ToColor;
+        public Color FromColor; // нач цвет
+        public Color ToColor; // конечный цвет
         public static Color MixColor(Color color1, Color color2, float k)
         {
             return Color.FromArgb(
                 (int)(color2.A * k + color1.A * (1 - k)),
                 (int)(color2.R * k + color1.R * (1 - k)),
                 (int)(color2.G * k + color1.G * (1 - k)),
-                (int)(color2.B * k + color1.B * (1 - k))
-            );
+                (int)(color2.B * k + color1.B * (1 - k)));
         }
         public override void Draw(Graphics g)
         {
