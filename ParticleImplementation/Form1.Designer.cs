@@ -33,8 +33,8 @@ namespace ParticleImplementation
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.picDisplay = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.b_NewCount = new System.Windows.Forms.Button();
+            this.lb_NewCount = new System.Windows.Forms.Label();
             this.lb_SpeedSpread = new System.Windows.Forms.Label();
             this.lb_CountParticles = new System.Windows.Forms.Label();
             this.tb_Spread = new System.Windows.Forms.TrackBar();
@@ -61,24 +61,24 @@ namespace ParticleImplementation
             this.timer1.Interval = 40;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // button1
+            // b_NewCount
             // 
-            this.button1.Location = new System.Drawing.Point(780, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(131, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Создать";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.b_NewCount.Location = new System.Drawing.Point(780, 12);
+            this.b_NewCount.Name = "b_NewCount";
+            this.b_NewCount.Size = new System.Drawing.Size(131, 23);
+            this.b_NewCount.TabIndex = 1;
+            this.b_NewCount.Text = "Создать";
+            this.b_NewCount.UseVisualStyleBackColor = true;
+            this.b_NewCount.Click += new System.EventHandler(this.b_NewCount_Click);
             // 
-            // label1
+            // lb_NewCount
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(645, 17);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(129, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Создать новый счётчик:";
+            this.lb_NewCount.AutoSize = true;
+            this.lb_NewCount.Location = new System.Drawing.Point(648, 17);
+            this.lb_NewCount.Name = "lb_NewCount";
+            this.lb_NewCount.Size = new System.Drawing.Size(129, 13);
+            this.lb_NewCount.TabIndex = 2;
+            this.lb_NewCount.Text = "Создать новый счётчик:";
             // 
             // lb_SpeedSpread
             // 
@@ -106,6 +106,7 @@ namespace ParticleImplementation
             this.tb_Spread.Size = new System.Drawing.Size(167, 45);
             this.tb_Spread.TabIndex = 5;
             this.tb_Spread.Value = 10;
+            this.tb_Spread.Scroll += new System.EventHandler(this.tb_Spread_Scroll);
             // 
             // tb_ParticlesPerTick
             // 
@@ -116,6 +117,7 @@ namespace ParticleImplementation
             this.tb_ParticlesPerTick.Size = new System.Drawing.Size(167, 45);
             this.tb_ParticlesPerTick.TabIndex = 6;
             this.tb_ParticlesPerTick.Value = 150;
+            this.tb_ParticlesPerTick.Scroll += new System.EventHandler(this.tb_ParticlesPerTick_Scroll);
             // 
             // lb_TextCount
             // 
@@ -149,8 +151,8 @@ namespace ParticleImplementation
             this.Controls.Add(this.tb_Spread);
             this.Controls.Add(this.lb_CountParticles);
             this.Controls.Add(this.lb_SpeedSpread);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.lb_NewCount);
+            this.Controls.Add(this.b_NewCount);
             this.Controls.Add(this.picDisplay);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
@@ -168,8 +170,8 @@ namespace ParticleImplementation
 
         private System.Windows.Forms.PictureBox picDisplay;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button b_NewCount;
+        private System.Windows.Forms.Label lb_NewCount;
         private System.Windows.Forms.Label lb_SpeedSpread;
         private System.Windows.Forms.Label lb_CountParticles;
         private System.Windows.Forms.TrackBar tb_Spread;

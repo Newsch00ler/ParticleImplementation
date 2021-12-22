@@ -21,16 +21,15 @@ namespace ParticleImplementation
         {
             InitializeComponent();
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
-            picDisplay.MouseWheel += picDisplay_MouseWheel;
             this.emitter1 = new Emitter // создаю эмиттер и привязываю его к полю emitter
             {
                 Direction = 270,
                 Spreading = 200,
-                SpeedMin = 10,
+                SpeedMin = 1,
                 SpeedMax = 10,
                 ColorFrom = Color.OrangeRed,
                 ColorTo = Color.FromArgb(0, Color.Yellow),
-                ParticlesPerTick = 5,
+                ParticlesPerTick = 150,
                 X = picDisplay.Width / 2,
                 Y = picDisplay.Height / picDisplay.Height,
             };
@@ -53,7 +52,6 @@ namespace ParticleImplementation
             emitter1.impactPoints.Add(point1);
             emitter1.impactPoints.Add(point2);
         }
-
         // ну и обработка тика таймера, тут просто декомпозицию выполнили
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -63,10 +61,9 @@ namespace ParticleImplementation
                 g.Clear(Color.Black);
                 emitter1.Render(g);
             }
-
+            lb_Count.Text = $"{emitter1.particles.Where(particle => particle.Life > 0).Count()}";
             picDisplay.Invalidate();
         }
-
         private void picDisplay_MouseMove(object sender, MouseEventArgs e)
         {
             // это не трогаем
@@ -80,20 +77,17 @@ namespace ParticleImplementation
             point2.X = e.X;
             point2.Y = e.Y;
         }
-
-        /*private void picDisplay_MouseClick(object sender, MouseEventArgs e)
-        {
-            emitter1.impactPoints.Add(new CountPoint { X = e.X,Y = e.Y,});
-        }*/
-        private void picDisplay_MouseWheel(object sender, MouseEventArgs e)
-        {
-            point2.X += 1;
-            point2.Y += 1;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void b_NewCount_Click(object sender, EventArgs e)
         {
             emitter1.impactPoints.Add(new CountPoint { X = picDisplay.Width / 2 + random.Next(-250, 250), Y = picDisplay.Height / 2 + random.Next(-250, 250) });
+        }
+        private void tb_Spread_Scroll(object sender, EventArgs e)
+        {
+            emitter1.SpeedMax = tb_Spread.Value;
+        }
+        private void tb_ParticlesPerTick_Scroll(object sender, EventArgs e)
+        {
+            emitter1.ParticlesPerTick = tb_ParticlesPerTick.Value;
         }
     }
 }

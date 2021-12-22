@@ -9,13 +9,12 @@ namespace ParticleImplementation
 {
     public class Emitter
     {
-        List<Particle> particles = new List<Particle>();
+        public List<Particle> particles = new List<Particle>();
         public int MousePositionX;
         public int MousePositionY;
         public float GravitationX = 0;
         public float GravitationY = 1; // пусть гравитация будет силой один пиксель за такт, нам хватит
         public List<IImpactPoint> impactPoints = new List<IImpactPoint>(); // тут буду хранится точки притяжения
-
         public int X; // координата X центра эмиттера, будем ее использовать вместо MousePositionX
         public int Y; // соответствующая координата Y 
         public int Direction = 0; // вектор направления в градусах куда сыпет эмиттер
@@ -27,7 +26,7 @@ namespace ParticleImplementation
         public int LifeMin = 20; // минимальное время жизни частицы
         public int LifeMax = 100; // максимальное время жизни частицы
         public int ParticlesPerTick = 1; // создание частиц за тик 
-
+        public int ParticlesCount; // кол-во частиц
         public Color ColorFrom = Color.OrangeRed; // начальный цвет частицы
         public Color ColorTo = Color.FromArgb(0, Color.Yellow); // конечный цвет частиц
         public void UpdateState()
@@ -96,7 +95,7 @@ namespace ParticleImplementation
             particle.Y = Y;
 
             var direction = Direction + (double)Particle.random.Next(Spreading) - Spreading / 2;
-            var speed = Particle.random.Next(SpeedMin, SpeedMax);
+            var speed = SpeedMin + Particle.random.Next(SpeedMin, SpeedMax);
 
             particle.SpeedX = (float)(Math.Cos(direction / 180 * Math.PI) * speed);
             particle.SpeedY = -(float)(Math.Sin(direction / 180 * Math.PI) * speed);
