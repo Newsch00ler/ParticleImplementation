@@ -9,10 +9,9 @@ namespace ParticleImplementation
 {
     public abstract class IImpactPoint
     {
-        public float X; // ну точка же, вот и две координаты
-        public float Y;
-        public Color Color;
-        //public Color Color = Color.OrangeRed; // начальный цвет частицы
+        public float X; // координата Х точки
+        public float Y; // координата У точки
+        public Color Color = Color.OrangeRed; // начальный цвет частицы
         public abstract void ImpactParticle(Particle particle); // абстрактный метод с помощью которого будем изменять состояние частиц
         public virtual void Render(Graphics g) // базовый класс для отрисовки точечки
         {
@@ -37,18 +36,13 @@ namespace ParticleImplementation
             var p = (particle as ParticleColorful);
             if (r + particle.Radius < Radius / 2) // если частица оказалось внутри окружности
             {
-                p.Life = 0; // а частица умерла туть(
-                Count++; // счётчик прибавился туть)
+                p.Radius = 0; // чтобы частица не мешалась еще сколько то тиков при смерти, делаю радиус 0
+                p.Life = 0; // частица умерла туть(
+                Count++; // а счётчик прибавился туть)
             }
         }
         public override void Render(Graphics g)
         {           
-            /*g.FillEllipse( // окружность с диаметром равным Radius
-                 new SolidBrush(Color.Black),
-                 X - Radius / 2,
-                 Y - Radius / 2,
-                 Radius,
-                 Radius);*/
             g.DrawEllipse( // окружность с диаметром равным Radius
                  new Pen(Color.OrangeRed, 2),
                  X - Radius / 2,
@@ -77,7 +71,7 @@ namespace ParticleImplementation
             float gY = Y - particle.Y;
             double r = Math.Sqrt(gX * gX + gY * gY); // считаем расстояние от центра точки до центра частицы
             var p = (particle as ParticleColorful);
-            if (r + particle.Radius < Radius / 2) // если частица оказалось внутри окружности
+            if (r + particle.Radius <= Radius / 2) // если частица оказалось внутри окружности или на окуржности
             {
                 radarParticles.Add(p);
                 if (Color == Color.OrangeRed)
@@ -85,7 +79,6 @@ namespace ParticleImplementation
                     p.FromColor = Color.MediumSpringGreen;
                     p.ToColor = Color.MediumSpringGreen;
                 }
-                //radarParticles.Add(p);
             }
             if (r + particle.Radius > Radius / 2) // если частица оказалось вне окружности
             {
@@ -95,7 +88,6 @@ namespace ParticleImplementation
                     p.FromColor = Color.OrangeRed;
                     p.ToColor = Color.Yellow; 
                 }
-                //radarParticles.Remove(p);
             }
         }
         public override void Render(Graphics g)
@@ -112,7 +104,7 @@ namespace ParticleImplementation
             g.DrawString(
                  $"{radarParticles.Count}",
                  new Font("Verdana", 14),
-                 new SolidBrush(Color.MediumSpringGreen),
+                 new SolidBrush(Color.White),
                  X,
                  Y,
                  stringFormat);
